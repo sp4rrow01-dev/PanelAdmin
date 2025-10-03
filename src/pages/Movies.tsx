@@ -279,10 +279,10 @@ export const Movies = () => {
       )}
 
       <div className="space-y-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <div className="flex items-center gap-3 mb-6">
-            <Film className="w-8 h-8 text-orange-600" />
-            <h3 className="text-2xl font-bold text-gray-900">Movies Management</h3>
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-gray-100">
+          <div className="flex items-center gap-3 mb-4 sm:mb-6">
+            <Film className="w-6 h-6 sm:w-8 sm:h-8 text-orange-600" />
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Movies Management</h3>
           </div>
 
           <div className="relative mb-6" ref={searchRef}>
@@ -338,7 +338,7 @@ export const Movies = () => {
           </div>
 
           <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   TMDB ID
@@ -487,7 +487,7 @@ export const Movies = () => {
                 />
               </div>
 
-              <div className="md:col-span-2">
+              <div className="lg:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Path
                 </label>
@@ -512,7 +512,7 @@ export const Movies = () => {
               </div>
             </div>
 
-            <div className="md:col-span-2">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Overview
               </label>
@@ -525,18 +525,18 @@ export const Movies = () => {
               />
             </div>
 
-            <div className="flex gap-3 justify-end pt-4 border-t border-gray-200">
+            <div className="flex flex-col sm:flex-row gap-3 justify-end pt-4 border-t border-gray-200">
               <button
                 type="button"
                 onClick={handleClear}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                className="w-full sm:w-auto px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Limpiar
               </button>
               <button
                 type="button"
                 onClick={handleSave}
-                className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+                className="w-full sm:w-auto px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
               >
                 Guardar
               </button>

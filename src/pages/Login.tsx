@@ -38,18 +38,18 @@ export const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <div className="flex justify-center mb-6">
-            <div className="bg-blue-600 p-4 rounded-full">
-              <Lock className="w-8 h-8 text-white" />
+      <div className="w-full max-w-md mx-auto">
+        <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8">
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <div className="bg-blue-600 p-3 sm:p-4 rounded-full">
+              <Lock className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
             </div>
           </div>
 
-          <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-2">
             Devalin Admin
           </h1>
-          <p className="text-center text-gray-500 mb-8">
+          <p className="text-center text-sm sm:text-base text-gray-500 mb-6 sm:mb-8">
             Sign in to access your dashboard
           </p>
 
