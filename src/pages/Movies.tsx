@@ -147,8 +147,42 @@ export const Movies = () => {
     });
   };
 
-  const handleSave = () => {
-    console.log('Save movie:', formData);
+  const handleSave = async () => {
+    try {
+      const payload = {
+        tmdb_id: formData.tmdb_id,
+        poster_url: formData.poster_url,
+        titulo: formData.titulo,
+        anio: formData.anio,
+        duracion: formData.duracion,
+        overview: formData.overview,
+        backdrop_url: formData.backdrop_url,
+        vote_average: formData.vote_average,
+        popularity: formData.popularity,
+        generos: formData.generos.split(',').map(g => g.trim()),
+        path: formData.path,
+      };
+
+      const response = await fetch('https://b.devalin.site/movies/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert('Película guardada exitosamente');
+        handleClear();
+      } else {
+        const error = await response.text();
+        alert(`Error al guardar: ${error}`);
+      }
+    } catch (error) {
+      console.error('Error saving movie:', error);
+      alert('Error al guardar la película');
+    }
   };
 
   const openTMDB = () => {
