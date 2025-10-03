@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '../components/DashboardLayout';
-import { Film, ExternalLink, Eye, Search, X } from 'lucide-react';
+import { Film, ExternalLink, Eye, Search, X, CheckCircle } from 'lucide-react';
 
 interface Movie {
   tmdb_id: string;
@@ -46,6 +46,7 @@ export const Movies = () => {
   const searchRef = useRef<HTMLDivElement>(null);
   const [unlinkedFiles, setUnlinkedFiles] = useState<UnlinkedFile[]>([]);
   const [loadingFiles, setLoadingFiles] = useState(false);
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [formData, setFormData] = useState<MovieForm>({
     tmdb_id: '',
     poster_url: '',
@@ -173,8 +174,11 @@ export const Movies = () => {
       });
 
       if (response.ok) {
-        alert('Película guardada exitosamente');
+        setShowSuccessNotification(true);
         handleClear();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } else {
         const error = await response.text();
         alert(`Error al guardar: ${error}`);
@@ -216,6 +220,15 @@ export const Movies = () => {
 
   return (
     <DashboardLayout>
+      {showSuccessNotification && (
+        <div className="fixed top-4 right-4 z-50 animate-slide-in">
+          <div className="bg-green-600 text-white px-6 py-4 rounded-lg shadow-xl flex items-center gap-3">
+            <CheckCircle className="w-6 h-6" />
+            <span className="font-medium">Película guardada exitosamente</span>
+          </div>
+        </div>
+      )}
+
       {showWarning && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
