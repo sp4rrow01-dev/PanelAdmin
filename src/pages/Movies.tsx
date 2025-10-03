@@ -27,6 +27,12 @@ interface MovieForm {
   vote_average: string;
   popularity: string;
   generos: string;
+  path: string;
+}
+
+interface UnlinkedFile {
+  name: string;
+  path: string;
 }
 
 export const Movies = () => {
@@ -38,6 +44,8 @@ export const Movies = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [unlinkedFiles, setUnlinkedFiles] = useState<UnlinkedFile[]>([]);
+  const [loadingFiles, setLoadingFiles] = useState(false);
   const [formData, setFormData] = useState<MovieForm>({
     tmdb_id: '',
     poster_url: '',
@@ -49,6 +57,7 @@ export const Movies = () => {
     vote_average: '',
     popularity: '',
     generos: '',
+    path: '',
   });
 
   useEffect(() => {
@@ -60,6 +69,29 @@ export const Movies = () => {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const fetchUnlinkedFiles = async () => {
+      setLoadingFiles(true);
+      try {
+        const response = await fetch(
+          'https://b.devalin.site/scan/movies/unlinked',
+          { credentials: 'include' }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setUnlinkedFiles(data);
+        }
+      } catch (error) {
+        console.error('Error fetching unlinked files:', error);
+      } finally {
+        setLoadingFiles(false);
+      }
+    };
+
+    fetchUnlinkedFiles();
   }, []);
 
   useEffect(() => {
@@ -111,6 +143,7 @@ export const Movies = () => {
       vote_average: '',
       popularity: '',
       generos: '',
+      path: '',
     });
   };
 
@@ -136,6 +169,7 @@ export const Movies = () => {
       vote_average: movie.vote_average,
       popularity: movie.popularity,
       generos: movie.generos.join(', '),
+      path: formData.path,
     });
     setShowDropdown(false);
     setSearchQuery('');
@@ -404,6 +438,30 @@ export const Movies = () => {
                   placeholder="Acción, Drama, Ciencia Ficción"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
                 />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Path
+                </label>
+                <select
+                  name="path"
+                  value={formData.path}
+                  onChange={(e) => setFormData(prev => ({ ...prev, path: e.target.value }))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white"
+                  disabled={loadingFiles}
+                >
+                  <option value="">Seleccionar archivo...</option>
+                  {loadingFiles ? (
+                    <option disabled>Cargando archivos...</option>
+                  ) : (
+                    unlinkedFiles.map((file, index) => (
+                      <option key={index} value={file.path}>
+                        {file.name}
+                      </option>
+                    ))
+                  )}
+                </select>
               </div>
             </div>
 
